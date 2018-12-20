@@ -1,0 +1,65 @@
+mybatis:
+  type-aliases-package: com.order_service.pojo  #类型别名包
+  mapper-locations: classpath:/mybatis/*.xml  #映射地址
+  configuration:
+    auto-mapping-behavior: full #自动映射行为
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #日志行为 控制台输出SQL语句
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/springdb
+    username: root
+    password: simon
+    driver-class-name: com.mysql.jdbc.Driver
+  application:
+    name: order-service #服务的名称
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    timeout: 2000
+server:
+  port: 8781
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/  #指定注册中心地址
+#自定义负载均衡策略(随机策略)
+#product-service:
+#  ribbon:
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+feign:
+  #开启feign支持hystrix(注意，一定要开启，旧版本默认支持，新版本默认关闭)
+  hystrix:
+    enabled: true
+  #修改调用超时时间
+  client:
+    config:
+      default:
+        connectTimeout: 2000  #连接超时
+        readTimeout: 1000     #读取超时
+
+#HystrixCommandProperties.java 配置
+#execution.isolation.thread.timeoutInMilliseconds=2000
+#execution.isolation.strategy   隔离策略
+#THREAD 线程池隔离 （默认）
+#SEMAPHORE 信号量
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 1000   #线程池隔离配置，设置超时时间单位:豪秒
+#          semaphore:
+#            maxConcurrentRequests: 10     #隔离策略为 信号量的时候，如果达到最大并发数时，后续请求会被拒绝，默认是10
+#        timeout:
+#          enabled: false #开启hystrix超时时间(一定不要禁用，会出问题，默认true，可以不加)
+
+#暴露全部的监控信息
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

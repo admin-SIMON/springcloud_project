@@ -1,0 +1,30 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: api-gateway
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/  #指定注册中心地址
+zuul:
+  #自定义路由映射
+  routes:
+    order-service: /apigateway/order/**
+    product-service: /apigateway/pro/**
+  #同意入口为上面的配置，其他入口忽略
+  ignored-patterns:
+    - /*-service/**
+#  忽略整个服务，对外提供接口
+#  ignored-services:
+#    - order-service,product-service
+
+  #处理HTTP请求头为空，不处理为下面三个值拦截
+  #Arrays.asList("Cookie", "Set-Cookie", "Authorization"));
+  sensitive-headers:
+#配置拦截访问控制表
+acl:
+  auths:
+    - /apigateway/order/info
+  regex:
+    - /apigateway/order/info/\d

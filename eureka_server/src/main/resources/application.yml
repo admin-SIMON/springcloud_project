@@ -1,0 +1,20 @@
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+  #声明自己是个服务端
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+#问题: eureka管理后台出现一串红色字体：是警告，说明有服务上线率低
+#
+#EMERGENCY! EUREKA MAY BE INCORRECTLY CLAIMING INSTANCES ARE UP WHEN THEY'RE NOT. RENEWALS ARE LESSER THAN THRESHOLD AND HENCE THE INSTANCES ARE NOT BEING EXPIRED JUST TO BE SAFE.
+#关闭检查方法: eureka服务端配置文件加入
+#注意: 自我保护模式禁止关闭，默认是开启状态true
+#server:
+#  enable-self-preservation: false

@@ -1,0 +1,21 @@
+mybatis:
+  type-aliases-package: com.product_service.pojo  #类型别名包
+  mapper-locations: classpath:/mybatis/*.xml  #映射地址
+  configuration:
+    auto-mapping-behavior: full #自动映射行为
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #日志行为 控制台输出SQL语句
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/springdb
+    username: root
+    password: simon
+    driver-class-name: com.mysql.jdbc.Driver
+  application:
+    name: product-service #服务的名称
+server:
+  port: 8771
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/  #指定注册中心地址
