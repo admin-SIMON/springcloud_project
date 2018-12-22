@@ -15,7 +15,6 @@ import org.springframework.context.annotation.ComponentScan;
 @EnableCircuitBreaker   //Hystrix断路器
 @EnableHystrixDashboard //Dashboard仪表盘监控
 public class OrderServiceApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(OrderServiceApplication.class, args);
     }
